@@ -3,6 +3,10 @@ block content
     .panel.panel-primary.min-height-1000(ng-controller="profileValidationController")
         .panel-heading.text-center Update your profile here:
         .panel-body
+            script.
+                var data = !{user};
+                window.serverData = data;
+                console.log(window.serverData);
           .container.text-center
               form.form-horizontal(action='/account/profile', method='POST', novalidate='novalidate', name='profileForm' ng-show="asyncComplete")
                 input(type='hidden', name='_csrf', value=_csrf)

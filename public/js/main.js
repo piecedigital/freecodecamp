@@ -42,20 +42,21 @@ $(document).ready(function() {
 });
 
 var profileValidation = angular.module('profileValidation',['ui.bootstrap']);
-profileValidation.controller('profileValidationController', ['$scope', '$http',
-    function($scope, $http) {
-        $http.get('/account/api').success(function(data) {
-            $scope.user = data.user;
-            $scope.user.profile.username = $scope.user.profile.username ? $scope.user.profile.username.toLowerCase() : undefined;
-            $scope.storedUsername = data.user.profile.username;
-            $scope.storedEmail = data.user.email;
-            $scope.user.email = $scope.user.email ? $scope.user.email.toLowerCase() : undefined;
-            $scope.user.profile.twitterHandle = $scope.user.profile.twitterHandle ? $scope.user.profile.twitterHandle.toLowerCase() : undefined;
-            $scope.asyncComplete = true;
-        });
+profileValidation.controller('profileValidationController', ['$scope', 'serverData',
+    function($scope, serverData) {
+        //$scope.user = data.user;
+        $scope.user = serverData;
+        console.log(serverData);
+        $scope.user.profile.username = $scope.user.profile.username ? $scope.user.profile.username.toLowerCase() : undefined;
+        $scope.storedUsername = data.user.profile.username;
+        $scope.storedEmail = data.user.email;
+        $scope.user.email = $scope.user.email ? $scope.user.email.toLowerCase() : undefined;
+        $scope.user.profile.twitterHandle = $scope.user.profile.twitterHandle ? $scope.user.profile.twitterHandle.toLowerCase() : undefined;
+        $scope.asyncComplete = true;
     }
 ]);
 
+profileValidation.value('serverData', window.serverData);
 profileValidation.controller('emailSignUpController', ['$scope',
     function($scope) {
 
