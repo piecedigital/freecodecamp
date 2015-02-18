@@ -1498,7 +1498,7 @@
 
   {
     "_id" : "bad87fee1348bd9aedf08829",
-    "name": "Create a Text Field in a Web Form",
+    "name": "Create a Text Input Field in a Web Form",
     "difficulty" : "0.46",
     "description": [
       "Create a text <code>input</code> field within a <code>form</code> element.",
@@ -1533,6 +1533,125 @@
       "<br/>",
       "<form>",
       "  <input>",
+      "</form>"
+    ],
+    "challengeType": 0
+  },
+
+  {
+    "_id" : "bad87fee1348bd9aeef08829",
+    "name": "Add a Label to a Text Input Field",
+    "difficulty" : "0.46",
+    "description": [
+      "Create a text <code>label</code> for both <code>input</code> elements within your <code>form</code> element.",
+      "You can attach labels to form fields using the <code>label</code>. This tells your users what they should enter into your <code>input</code> field."
+    ],
+    "tests": [
+      "expect($('input').length).to.eql(4);",
+      "expect($('label').length).to.eql(4);"
+    ],
+    "challengeSeed": [
+      "<style>",
+      "  .thick-green-border {",
+      "    border-style: solid;",
+      "    border-color: #00ff00;",
+      "    border-width: 10px;",
+      "    border-radius: 50%;",
+      "  }",
+      "</style>",
+      "<h2 class=\"text-center\">cat photo app</h2>",
+      "<img class=\"thick-green-border img-responsive\" src=\"http://bit.ly/cutegraycat\"/>",
+      "<br/>",
+      "<form>",
+      "  <label>Email</label>",
+      "  <input>",
+      "  <label>Password</label>",
+      "  <input>",
+      "",
+      "  <input>",
+      "",
+      "  <input>",
+      "</form>"
+    ],
+    "challengeType": 0
+  },
+
+  {
+    "_id" : "bad87fee1348bd9aeef07829",
+    "name": "Style Text Input Fields with Bootstrap Form Groups",
+    "difficulty" : "0.46",
+    "description": [
+      "Style all <code>input</code> elements in your form with the <code>form-group</code> and <code>form-control</code> classes.",
+      "Bootstrap has several helpful classes to make your forms responsive and good looking.",
+      "Note that you need to wrap all your <code>input</code> elements with <code>&#60div class=\"form-group\"&#62</code> in order to activate Bootstrap's styling."
+    ],
+    "tests": [
+      "expect($('.form-group').length).to.eql(2);",
+      "expect($('.form-control').length).to.eql(2);"
+    ],
+    "challengeSeed": [
+      "<style>",
+      "  .thick-green-border {",
+      "    border-style: solid;",
+      "    border-color: #00ff00;",
+      "    border-width: 10px;",
+      "    border-radius: 50%;",
+      "  }",
+      "</style>",
+      "<h2 class=\"text-center\">cat photo app</h2>",
+      "<img class=\"thick-green-border img-responsive\" src=\"http://bit.ly/cutegraycat\"/>",
+      "<br/>",
+      "<form>",
+      "  <div class=\"form-group\">",
+      "    <label>Email</label>",
+      "    <input class=\"form-control\">",
+      "  </div>",
+      "  <label>Password</label>",
+      "  <input>",
+      "</form>"
+    ],
+    "challengeType": 0
+  },
+
+  {
+    "_id" : "bad87fee1348bd9aecf07829",
+    "name": "Specify a Type of Text Input for an Input Field",
+    "difficulty" : "0.46",
+    "description": [
+      "Set both the Password and Confirm Password <code>input</code> fields to expect data of type <code>password</code>.",
+      "Your form fields will react differently to input from your user depending on what type of data you've set the field to expect.",
+      "Note that we've set the Email field to expect data of type <code>email</code>.",
+      "Once you've set the Password and Confirm Password fields to type <code>password</code>, try typing in them. Notice how they hide what you type in them?"
+    ],
+    "tests": [
+      "expect($('.form-control:eq(1)').attr('type')).to.eql('password')",
+      "expect($('.form-control:eq(2)').attr('type')).to.eql('password')"
+    ],
+    "challengeSeed": [
+      "<style>",
+      "  .thick-green-border {",
+      "    border-style: solid;",
+      "    border-color: #00ff00;",
+      "    border-width: 10px;",
+      "    border-radius: 50%;",
+      "  }",
+      "</style>",
+      "<h2 class=\"text-center\">cat photo app</h2>",
+      "<img class=\"thick-green-border img-responsive\" src=\"http://bit.ly/cutegraycat\"/>",
+      "<br/>",
+      "<form>",
+      "  <div class=\"form-group\">",
+      "    <label>Email</label>",
+      "    <input class=\"form-control\" type=\"email\">",
+      "  </div>",
+      "  <div class=\"form-group\">",
+      "    <label>Password</label>",
+      "    <input class=\"form-control\">",
+      "  </div>",
+      "  <div class=\"form-group\">",
+      "    <label>Confirm Password</label>",
+      "    <input class=\"form-control\">",
+      "  </div>",
       "</form>"
     ],
     "challengeType": 0
