@@ -2604,6 +2604,7 @@
     ],
     "challengeType" : 2
   },
+
   {
     "_id": "bd7123c9c441eddfaeb5bdef",
     "name": "Meet Booleans",
@@ -2621,25 +2622,80 @@
     ],
     "challengeType": 1
   },
+
   {
-    "_id": "bd7123c9c441eddfaeb5bdef",
-    "name": "Meet Booleans",
+    "_id": "bd7123c9c442eddfaeb5bdef",
+    "name": "Define Your Name",
     "difficulty": "9.98",
     "description": [
-      "Return true",
-      "Some additional directions"
+      "Set the value of <code>yourName</code> to your name by typing your name in quotes.",
+      "Currently <code>yourName</code> is empty. Type in your name and hit the submit button.",
+      "Look at the <code>ourName</code> example if you get stuck."
     ],
     "tests": [
-      "expect(welcomeToBooleans()).to.be.a(\"boolean\");",
-      "expect(welcomeToBooleans()).to.be.true;"
+      "expect(yourName).to.be.a(\"string\");",
+      "expect(yourName).length.not.to.be(0);"
     ],
     "challengeSeed": [
-      "function welcomeToBooleans() {",
+      "// ourName = \"Free Code Camp\";",
+      "yourName = \"\";"
+    ],
+    "challengeType": 1
+  },
+
+  {
+    "_id": "bd7123c9c443eddfaeb5bdef",
+    "name": "Start Using Variables",
+    "difficulty": "9.98",
+    "description": [
+      "Now, use the <code>var</code> keyword to create a <code>variable</code> called <code>yourName</code>. Set its value to your name.",
+      "<code>Variables</code> are used to store values.",
+      "Be sure to use lowercase and uppercase letters properly. JavaScript variables are written in <code>camel case</code>. An example of camel case is: camelCase.",
+      "Look at the <code>ourName</code> example if you get stuck."
+    ],
+    "tests": [
+      "expect(yourName).to.be.a(\"string\");",
+      "expect(yourName).length.not.to.be(0);"
+    ],
+    "challengeSeed": [
+      "// var ourName = \"Free Code Camp\";",
+      ""
+    ],
+    "challengeType": 1
+  },
+
+
+
+
+
+
+
+
+
+
+
+  {
+    "_id": "bd7123c9c442eddfaeb5bdef",
+    "name": "Return Your Name",
+    "difficulty": "9.98",
+    "description": [
+      "Make the <code>function</code> return return a <code>string</code> that has your name in it.",
+      "Functions are pieces of code that do something specific. This <code>function</code> returns a <code>string</code>.",
+      "Strings are sequences of characters. For example, \"Fluffy\" is a string.",
+      "Strings are always enclosed in either single quotes or double quotes.",
+      "Currently the string following the <code>return</code> statement is empty. Add your name to it."
+    ],
+    "tests": [
+      "expect(returnYourName()).to.be.a(\"string\");",
+      "expect(returnYourName()).length.not.to.be(0);"
+    ],
+    "challengeSeed": [
+      "function returnYourName() {",
       "// Good luck!",
-      "return false;",
+      "return \"\";",
       "}",
       "",
-      "welcomeToBooleans();"
+      "returnYourName();"
     ],
     "challengeType": 1
   }
