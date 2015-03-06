@@ -2628,17 +2628,17 @@
     "name": "Define Your Name",
     "difficulty": "9.98",
     "description": [
-      "Set the value of <code>yourName</code> to your name by typing your name in quotes.",
-      "Currently <code>yourName</code> is empty. Type in your name and hit the submit button.",
+      "Set the value of <code>myName</code> to your name by typing your name in quotes.",
+      "Currently <code>myName</code> is empty. Type in your name and hit the submit button.",
       "Look at the <code>ourName</code> example if you get stuck."
     ],
     "tests": [
-      "expect(yourName).to.be.a(\"string\");",
-      "expect(yourName).length.not.to.be(0);"
+      "expect(myName).to.be.a(\"string\");",
+      "expect(myName).length.not.to.be(0);"
     ],
     "challengeSeed": [
       "// ourName = \"Free Code Camp\";",
-      "yourName = \"\";"
+      "myName = \"\";"
     ],
     "challengeType": 1
   },
@@ -2648,14 +2648,14 @@
     "name": "Start Using Variables",
     "difficulty": "9.98",
     "description": [
-      "Now, use the <code>var</code> keyword to create a <code>variable</code> called <code>yourName</code>. Set its value to your name.",
+      "Now, use the <code>var</code> keyword to create a <code>variable</code> called <code>myName</code>. Set its value to your name.",
       "<code>Variables</code> are used to store values.",
       "Be sure to use lowercase and uppercase letters properly. JavaScript variables are written in <code>camel case</code>. An example of camel case is: camelCase.",
       "Look at the <code>ourName</code> example if you get stuck."
     ],
     "tests": [
-      "expect(yourName).to.be.a(\"string\");",
-      "expect(yourName).length.not.to.be(0);"
+      "expect(myName).to.be.a(\"string\");",
+      "expect(myName).length.not.to.be(0);"
     ],
     "challengeSeed": [
       "// var ourName = \"Free Code Camp\";",
@@ -2664,39 +2664,108 @@
     "challengeType": 1
   },
 
-
-
-
-
-
-
-
+  {
+    "_id": "bd7123c9c444eddfaeb5bdef",
+    "name": "Define Your First and Last Name",
+    "difficulty": "9.98",
+    "description": [
+      "Now, use the <code>var</code> keyword to create a <code>variable</code> called <code>myFirstName</code> and set its value to your first name. Then set a variable called <code>myLastName</code> to your last name.",
+      "<code>Variables</code> are used to store values.",
+      "Be sure to use lowercase and uppercase letters properly. JavaScript variables are written in <code>lower camel case</code>. An example of lower camel case is: lowerCamelCase.",
+      "Look at the <code>ourFirstName</code> and <code>ourLastName</code> examples if you get stuck."
+    ],
+    "tests": [
+      "expect(myFirstName).to.be.a(\"string\");",
+      "expect(myFirstName).length.not.to.be(0);",
+      "expect(myLastName).to.be.a(\"string\");",
+      "expect(myLastName).length.not.to.be(0);"
+    ],
+    "challengeSeed": [
+      "// var ourFirstName = \"Free\";",
+      "// var ourLastName = \"Code Camp\";",
+      "",
+      ""
+    ],
+    "challengeType": 1
+  },
 
 
 
   {
-    "_id": "bd7123c9c442eddfaeb5bdef",
-    "name": "Return Your Name",
+    "_id": "bd7123c9c445eddfaeb5bdef",
+    "name": "Combine Two Strings into One String",
     "difficulty": "9.98",
     "description": [
-      "Make the <code>function</code> return return a <code>string</code> that has your name in it.",
-      "Functions are pieces of code that do something specific. This <code>function</code> returns a <code>string</code>.",
-      "Strings are sequences of characters. For example, \"Fluffy\" is a string.",
-      "Strings are always enclosed in either single quotes or double quotes.",
-      "Currently the string following the <code>return</code> statement is empty. Add your name to it."
+      "Make a variable called <code>myName</code> by adding the string of your first name to the string of your last name.",
+      "Strings can be combined in a process called <code>concatenation</code>.",
+      "Be sure to include a space at the end of your first string. Otherwise the two strings will not have a space between them.",
+      "Be sure to use lowercase and uppercase letters properly. JavaScript variables are written in <code>lower camel case</code>. An example of lower camel case is: lowerCamelCase.",
+      "Look at the <code>ourName</code> example if you get stuck."
     ],
     "tests": [
-      "expect(returnYourName()).to.be.a(\"string\");",
-      "expect(returnYourName()).length.not.to.be(0);"
+      "expect(myName).to.be.a(\"string\");",
+      "expect(myName).length.not.to.be(0);",
+      "expect((/\\s+/).test(myName)).to.be.true;"
     ],
     "challengeSeed": [
-      "function returnYourName() {",
-      "// Good luck!",
-      "return \"\";",
-      "}",
+      "// var ourName = \"Free \" + \"Code Camp\";",
       "",
-      "returnYourName();"
+      ""
+    ],
+    "challengeType": 1
+  },
+
+  {
+    "_id": "bd7123c9c446eddfaeb5bdef",
+    "name": "Combine Two Variables into One Variable",
+    "difficulty": "9.98",
+    "description": [
+      "Make the variables <code>myFirstName</code>, <code>myLastName</code>, and <code>myFullName</code>. Concatenate my <code>myFirstName</code> to <code>myLastName</code> to create <code>myFullName</code>.",
+      "Strings can be combined in a process called <code>concatenation</code>.",
+      "Be sure to include a space at the end of <code>myFirstName</code>. Otherwise <code>myFullName</code> will not contain a space between your first and last names.",
+      "Be sure to use lowercase and uppercase letters properly. JavaScript variables are written in <code>lower camel case</code>. An example of lower camel case is: lowerCamelCase.",
+      "Look at the <code>ourFullName</code> example if you get stuck."
+    ],
+    "tests": [
+      "expect(myFirstName).to.be.a(\"string\");",
+      "expect(myLastName).to.be.a(\"string\");",
+      "expect(myFullName).to.be.a(\"string\");",
+      "expect(myFullName).length.not.to.be(0);",
+      "expect((/\\s+/).test(myFullName)).to.be.true;"
+    ],
+    "challengeSeed": [
+      "// var ourFirstName = \"Free \";",
+      "// var ourLastName = \"Code Camp\";",
+      "// var ourFullName = ourFirstName + ourLastName;",
+      ""
+    ],
+    "challengeType": 1
+  },
+
+  {
+    "_id": "bd7123c9c447eddfaeb5bdef",
+    "name": "Concatenate Both Variables and Strings into the Same Variable",
+    "difficulty": "9.98",
+    "description": [
+      "Make the variables <code>myFirstName</code>, <code>myLastName</code>, and <code>myFullName</code>. Concatenate my <code>myFirstName</code> to <code>myLastName</code> to create <code>myFullName</code>, but this time add the space as a separate string, not as part of <code>myFirstName</code> or <code>myLastName</code>.",
+      "Strings can be combined in a process called <code>concatenation</code>.",
+      "Be sure to use lowercase and uppercase letters properly. JavaScript variables are written in <code>lower camel case</code>. An example of lower camel case is: lowerCamelCase.",
+      "Look at the <code>ourFullName</code> example if you get stuck."
+    ],
+    "tests": [
+      "expect(myFirstName).to.be.a(\"string\");",
+      "expect(myLastName).to.be.a(\"string\");",
+      "expect(myFullName).to.be.a(\"string\");",
+      "expect(myFullName).length.not.to.be(0);",
+      "expect((/\\s+/).test(myFullName)).to.be.true;"
+    ],
+    "challengeSeed": [
+      "// var ourFirstName = \"Free\";",
+      "// var ourLastName = \"Code Camp\";",
+      "// var ourFullName = ourFirstName + \" \" + ourLastName;",
+      ""
     ],
     "challengeType": 1
   }
+
 ]
