@@ -2766,6 +2766,118 @@
       ""
     ],
     "challengeType": 1
+  },
+
+  {
+    "_id": "bd7123c9c448eddfaeb5bdef",
+    "name": "Check the Length of a String",
+    "difficulty": "9.98",
+    "description": [
+      "Use <code>length</code> to count the number of characters in \"FreeCodeCamp\"!",
+      "All strings have a <code>length</code> property. You can use this property to find out how many characters are in the string. We can call this property by adding a <code>.length</code> at the end of a string.",
+      "Look at the <code>\"FreeCodeCamp\".length</code> example if you get stuck."
+    ],
+    "tests": [
+      "expect(value).to.equal(12);"
+    ],
+    "challengeSeed": [
+      "// ignore this for now",
+      "function returnValue(value) {",
+      "  return value;",
+      "}",
+      "",
+      "// add your code here",
+      "var value = \"FreeCodeCamp\";",
+      "",
+      "// ignore this for now",
+      "returnValue(value);",
+      ""
+    ],
+    "challengeType": 1
+  },
+
+  {
+    "_id": "bd7123c9c448eddfaeb5bdef",
+    "name": "Check the Length of a String",
+    "difficulty": "9.98",
+    "description": [
+      "Let's count the number of characters in your name! All strings have a <code>length</code> property. You can use this property to find out how many characters are in the string. We can call this property by adding a <code>.length</code> at the end of a string.",
+      "Look at the <code>\"FreeCodeCamp\".length</code> example if you get stuck."
+    ],
+    "tests": [
+      ""
+    ],
+    "challengeSeed": [
+      "// You can ignore this function for now",
+      "print = function(output) {",
+      "  return output;",
+      "};",
+      "",
+      "print(\"FreeCodeCamp\".length);",
+      "print(\"\");",
+      ""
+    ],
+    "challengeType": 1
+  },
+
+  {
+    "_id": "bd7123c9c449eddfaeb5bdef",
+    "name": "Use Bracket Notation to Find the First Character in a String",
+    "difficulty": "9.98",
+    "description": [
+      "Use <code>bracket notation</code> to find the first character in a string.",
+      "<code>Bracket notation</code> is a way to get a character at a specific <code>index</code> within a string. For example, the character at index 0 in the word \"code\" is \"c\". You can get this value by doing <code>\"code\"[0]</code>.",
+      "Note that the string <code>\"FreeCodeCamp\"</code> has already been assigned to the variable <code>someString</code>, so you just need to use bracket notation on someString."
+    ],
+    "tests": [
+      "expect(someString).to.equal('F');"
+    ],
+    "challengeSeed": [
+      "// ignore this for now",
+      "function returnValue(value) {",
+      "  return value;",
+      "}",
+      "",
+      "var someString = \"FreeCodeCamp\";",
+      "//Example: var anotherString = \"code\"",
+      "//anotherString[0] = \"c\"",
+      "",
+      "// Enter your code here:",
+      "var value = someString;",
+      "",
+      "// ignore this for now",
+      "returnValue(value);"
+    ],
+    "challengeType": 1
+  },
+
+  {
+    "_id": "bd7123c9c450eddfaeb5bdef",
+    "name": "Use Bracket Notation to Find the Last Character in a String",
+    "difficulty": "9.98",
+    "description": [
+      "Use <code>bracket notation</code> to find the last character in a string.",
+      "<code>Bracket notation</code> is a way to get a character at a specific <code>index</code> within a string. To get the last character of the string \"code\", you would use index -1. You can get this value by doing <code>\"code\"[-1]</code>.",
+      "Note that the string <code>\"FreeCodeCamp\"</code> has already been assigned to the variable <code>someString</code>, so you just need to use bracket notation on someString."
+    ],
+    "tests": [
+      ""
+    ],
+    "challengeSeed": [
+      "// ignore this for now",
+      "function returnValue(value) {",
+      "  return value;",
+      "}",
+      "",
+      "var someString = \"FreeCodeCamp\";",
+      "",
+      "// Enter your code here:",
+      "var value = someString;",
+      "",
+      "// ignore this for now",
+      "returnValue(value);"
+    ],
+    "challengeType": 1
   }
 
 ]
