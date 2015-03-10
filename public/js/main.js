@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    challengeName = typeof challengeName !== undefined ? challengeName : 'Untitled';
+    var challengeName = typeof challengeName !== undefined ? challengeName : 'Untitled';
     if (challengeName) {
         ga('send', 'event',  'Challenge', 'load', challengeName);
     }
@@ -164,7 +164,7 @@ $(document).ready(function() {
                     headline: headline,
                     timePosted: Date.now(),
                     description: description,
-
+                    storyMetaDescription: storyMetaDescription,
                     rank: 1,
                     upVotes: [userDataForUpvote],
                     author: {
@@ -173,7 +173,7 @@ $(document).ready(function() {
                         username: user.profile.username
                     },
                     comments: [],
-                    image: ''
+                    image: storyImage
                 }
             })
             .fail(function (xhr, textStatus, errorThrown) {
