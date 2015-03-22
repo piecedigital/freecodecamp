@@ -94,8 +94,10 @@ exports.getEmailSignup = function(req, res) {
  */
 
 exports.postEmailSignup = function(req, res, next) {
-    var errors = req.validationErrors();
 
+    req.assert('email', 'valid email required').isEmail();
+    var errors = req.validationErrors();
+    
     if (errors) {
         req.flash('errors', errors);
         return res.redirect('/email-signup');
@@ -123,7 +125,7 @@ exports.postEmailSignup = function(req, res, next) {
         password: req.body.password,
         profile : {
             username: req.body.username.trim(),
-            picture: 'https://s3.amazonaws.com/freecodecamp/favicons/apple-touch-icon-180x180.png'
+            picture: 'https://s3.amazonaws.com/freecodecamp/camper-image-placeholder.png'
         }
     });
 
@@ -258,7 +260,7 @@ exports.returnUser = function(req, res, next) {
             var user = user[0];
             Challenge.find({}, null, {sort: {challengeNumber: 1}}, function (err, c) {
                 res.render('account/show', {
-                    title: 'Camper: ',
+                    title: 'Camper ' + user.profile.username + '\'s portfolio',
                     username: user.profile.username,
                     name: user.profile.name,
                     location: user.profile.location,
@@ -322,7 +324,6 @@ exports.updateProgress = function(req, res) {
 
 exports.postUpdateProfile = function(req, res, next) {
 
-    // What does this do?
     User.findById(req.user.id, function(err, user) {
         if (err) return next(err);
         var errors = req.validationErrors();
@@ -342,7 +343,7 @@ exports.postUpdateProfile = function(req, res, next) {
                 });
                 return res.redirect('/account');
             }
-            User.findOne({ username: req.body.username }, function(err, existingUsername) {
+            User.findOne({ 'profile.username': req.body.username }, function(err, existingUsername) {
                 if (err) {
                     return next(err);
                 }
@@ -362,7 +363,7 @@ exports.postUpdateProfile = function(req, res, next) {
                 user.profile.codepenProfile = req.body.codepenProfile.trim() || '';
                 user.profile.twitterHandle = req.body.twitterHandle.trim() || '';
                 user.profile.bio = req.body.bio.trim() || '';
-                user.profile.picture = req.body.picture.trim() || 'https://s3.amazonaws.com/freecodecamp/favicons/apple-touch-icon-180x180.png';
+                user.profile.picture = req.body.picture.trim() || 'https://s3.amazonaws.com/freecodecamp/camper-image-placeholder.png';
                 user.portfolio.website1Title = req.body.website1Title.trim() || '';
                 user.portfolio.website1Link = req.body.website1Link.trim() || '';
                 user.portfolio.website1Image = req.body.website1Image.trim() || '';
@@ -378,9 +379,18 @@ exports.postUpdateProfile = function(req, res, next) {
                     if (err) {
                         return next(err);
                     }
-                    req.flash('success', {msg: 'Profile information updated.'});
-                    res.redirect('/account');
-                    resources.updateUserStoryPictures(user._id.toString(), user.profile.picture, user.profile.username);
+                    resources.updateUserStoryPictures(
+                      user._id.toString(),
+                      user.profile.picture,
+                      user.profile.username,
+                      function(err) {
+                        if (err) { return next(err); }
+                        req.flash('success', {
+                          msg: 'Profile information updated.'
+                        });
+                        res.redirect('/account');
+                      }
+                    );
                 });
             });
         });

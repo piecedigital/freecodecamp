@@ -1,4 +1,5 @@
-var User = require('../models/User'),
+var async = require('async'),
+    User = require('../models/User'),
     Challenge = require('./../models/Challenge'),
     Bonfire = require('./../models/Bonfire'),
     Story = require('./../models/Story'),
@@ -29,28 +30,27 @@ module.exports = {
 
     sitemap: function sitemap(req, res, next) {
         var appUrl = 'http://www.freecodecamp.com';
-        var now = moment(new Date).format('YYYY-MM-DD');
+        var now = moment(new Date()).format('YYYY-MM-DD');
 
-        errors = {};
         User.find({'profile.username': {'$ne': '' }}, function(err, users) {
             if (err) {
                 debug('User err: ', err);
-                next(err);
+                return next(err);
             }
             Challenge.find({}, function (err, challenges) {
                 if (err) {
                     debug('User err: ', err);
-                    next(err);
+                    return next(err);
                 }
                 Bonfire.find({}, function (err, bonfires) {
                     if (err) {
                         debug('User err: ', err);
-                        next(err);
+                        return next(err);
                     }
                     Story.find({}, function (err, stories) {
                         if (err) {
                             debug('User err: ', err);
-                            next(err);
+                            return next(err);
                         }
                         res.header('Content-Type', 'application/xml');
                         res.render('resources/sitemap', {
@@ -132,6 +132,13 @@ module.exports = {
             title: 'JavaScript in your Inbox'
         });
     },
+
+    nodeSchoolChallenges: function(req, res) {
+        res.render('resources/nodeschool-challenges', {
+            title: 'NodeSchool Challenges'
+        });
+    },
+
     githubCalls: function(req, res) {
         var githubHeaders = {headers: {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1521.3 Safari/537.36'}, port:80 };
         request('https://api.github.com/repos/freecodecamp/freecodecamp/pulls?client_id=' + secrets.github.clientID + '&client_secret=' + secrets.github.clientSecret, githubHeaders, function(err, status1, pulls) {
@@ -145,15 +152,17 @@ module.exports = {
 
 
 
-    trelloCalls: function(req, res) {
+    trelloCalls: function(req, res, next) {
         request('https://trello.com/1/boards/BA3xVpz9/cards?key=' + secrets.trello.key, function(err, status, trello) {
-            trello = trello ? (JSON.parse(trello)).length : "Can't connect to to Trello";
+            if (err) { return next(err); }
+            trello = (status && status.statusCode == 200) ? (JSON.parse(trello)).length : "Can't connect to to Trello";
             res.send({"trello": trello});
         });
     },
-    bloggerCalls: function(req, res) {
+    bloggerCalls: function(req, res, next) {
         request('https://www.googleapis.com/blogger/v3/blogs/2421288658305323950/posts?key=' + secrets.blogger.key, function (err, status, blog) {
-            blog = blog.length > 100 ? JSON.parse(blog) : '';
+            if (err) { return next(err); }
+            blog = (status && status.statusCode == 200) ? JSON.parse(blog) : '';
             res.send({
                 blog1Title: blog ? blog["items"][0]["title"] : "Can't connect to Blogger",
                 blog1Link: blog ? blog["items"][0]["url"] : "http://blog.freecodecamp.com",
@@ -169,16 +178,13 @@ module.exports = {
         });
     },
 
-    about: function(req, res) {
+    about: function(req, res, next) {
         if (req.user) {
-        if (!req.user.picture) {
-
-                req.user.picture = "https://s3.amazonaws.com/freecodecamp/favicons/apple-touch-icon-180x180.png";
+            if (!req.user.profile.picture || req.user.profile.picture === "https://s3.amazonaws.com/freecodecamp/favicons/apple-touch-icon-180x180.png") {
+                req.user.profile.picture = "https://s3.amazonaws.com/freecodecamp/camper-image-placeholder.png";
                 req.user.save();
             }
         }
-
-
         var date1 = new Date("10/15/2014");
         var date2 = new Date();
         var timeDiff = Math.abs(date2.getTime() - date1.getTime());
@@ -190,12 +196,12 @@ module.exports = {
         User.count({}, function (err, c3) {
             if (err) {
                 debug('User err: ', err);
-                next(err);
+                return next(err);
             }
             User.count({'points': {'$gt': 53}}, function (err, all) {
                 if (err) {
                     debug('User err: ', err);
-                    next(err);
+                    return next(err);
                 }
 
                 res.render('resources/learn-to-code', {
@@ -295,7 +301,7 @@ module.exports = {
                     var metaImage =  $("meta[property='og:image']");
                     var urlImage = metaImage.attr('content') ? metaImage.attr('content') : '';
                     var description = metaDescription.attr('content') ? metaDescription.attr('content') : '';
-                    result.title = $('title').text();
+                    result.title = $('title').text().length < 141 ? $('title').text() : $('title').text().slice(0, 137) + " ...";
                     result.image = urlImage;
                     result.description = description;
                     callback(null, result);
@@ -305,7 +311,7 @@ module.exports = {
             });
         })();
     },
-    updateUserStoryPictures: function(userId, picture, username) {
+    updateUserStoryPictures: function(userId, picture, username, cb) {
 
         var counter = 0,
             foundStories,
@@ -313,7 +319,7 @@ module.exports = {
 
         Story.find({'author.userId': userId}, function(err, stories) {
             if (err) {
-                throw err;
+                return cb(err);
             }
             foundStories = stories;
             counter++;
@@ -321,7 +327,7 @@ module.exports = {
         });
         Comment.find({'author.userId': userId}, function(err, comments) {
             if (err) {
-                throw err;
+                return cb(err);
             }
             foundComments = comments;
             counter++;
@@ -332,19 +338,28 @@ module.exports = {
             if (counter !== 2) {
                 return;
             }
+            var tasks = [];
             R.forEach(function(comment) {
-                comment.author.picture = picture;
-                comment.author.username = username;
-                comment.markModified('author');
-                comment.save();
+              comment.author.picture = picture;
+              comment.author.username = username;
+              comment.markModified('author');
+              tasks.push(function(cb) {
+                comment.save(cb);
+              });
             }, foundComments);
 
             R.forEach(function(story) {
-                story.author.picture = picture;
-                story.author.username = username;
-                story.markModified('author');
-                story.save();
+              story.author.picture = picture;
+              story.author.username = username;
+              story.markModified('author');
+              tasks.push(function(cb) {
+                story.save(cb);
+              });
             }, foundStories);
+            async.parallel(tasks, function(err) {
+              if (err) { return cb(err); }
+              cb();
+            });
         }
     }
 };

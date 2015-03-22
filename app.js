@@ -1,11 +1,12 @@
-require('newrelic');
+if (process.env.NODE_ENV !== 'development') {
+  require('newrelic');
+}
 require('dotenv').load();
 /**
  * Module dependencies.
  */
 
 var express = require('express'),
-    debug = require('debug')('freecc:server'),
     cookieParser = require('cookie-parser'),
     compress = require('compression'),
     session = require('express-session'),
@@ -14,7 +15,6 @@ var express = require('express'),
     methodOverride = require('method-override'),
     bodyParser = require('body-parser'),
     helmet = require('helmet'),
-    _ = require('lodash'),
     MongoStore = require('connect-mongo')(session),
     flash = require('express-flash'),
     path = require('path'),
@@ -38,11 +38,6 @@ var express = require('express'),
      *  Stories
      */
     storyController = require('./controllers/story');
-
-    /**
-     * User model
-     */
-    User = require('./models/User'),
 
     /**
      * API keys and Passport configuration.
@@ -135,6 +130,7 @@ var trusted = [
     '*.rafflecopter.com',
     '*.bootstrapcdn.com',
     '*.cloudflare.com',
+    'https://*.cloudflare.com',
     'localhost:3001',
     'ws://localhost:3001/',
     'http://localhost:3001',
@@ -145,6 +141,7 @@ var trusted = [
     'https://syndication.twitter.com',
     '*.youtube.com',
     '*.jsdelivr.net',
+    'https://*.jsdelivr.net',
     '*.togetherjs.com',
     'https://*.togetherjs.com',
     'wss://hub.togetherjs.com',
@@ -183,6 +180,7 @@ app.use(helmet.contentSecurityPolicy({
     ].concat(trusted),
     frameSrc: [
         '*.gitter.im',
+        '*.gitter.im https:',
         '*.vimeo.com',
         '*.twitter.com',
         '*.rafflecopter.com',
@@ -232,6 +230,7 @@ app.get('/deploy-a-website', resourcesController.deployAWebsite);
 app.get('/gmail-shortcuts', resourcesController.gmailShortcuts);
 app.get('/control-shortcuts', resourcesController.controlShortcuts);
 app.get('/control-shortcuts', resourcesController.deployAWebsite);
+app.get('/nodeschool-challenges', resourcesController.nodeSchoolChallenges);
 app.get('/stats', function(req, res) {
     res.redirect(301, '/learn-to-code');
 });

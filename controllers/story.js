@@ -19,7 +19,7 @@ function hotRank(timeValue, rank) {
      */
     var hotness;
     var z = Math.log(rank) / Math.log(10);
-    hotness = z + (timeValue / 45000000);
+    hotness = z + (timeValue / 172800000);
     return hotness;
 
 }
@@ -57,24 +57,28 @@ exports.recentJSON = function(req, res, next) {
 
 exports.hot = function(req, res) {
     res.render('stories/index', {
+        title: 'Hot stories currently trending on Camper News',
         page: 'hot'
     });
 };
 
 exports.submitNew = function(req, res) {
     res.render('stories/index', {
+        title: 'Submit a new story to Camper News',
         page: 'submit'
     });
 };
 
 exports.search = function(req, res) {
     res.render('stories/index', {
+        title: 'Search the archives of Camper News',
         page: 'search'
     });
 };
 
 exports.recent = function(req, res) {
     res.render('stories/index', {
+        title: 'Recently submitted stories on Camper News',
         page: 'recent'
     });
 };
@@ -82,10 +86,12 @@ exports.recent = function(req, res) {
 exports.preSubmit = function(req, res) {
 
     var data = req.query;
-    var cleanData = sanitizeHtml(data.url);
+    var cleanData = sanitizeHtml(data.url, {
+                      allowedTags: [],
+                      allowedAttributes: []
+                    }).replace(/&quot;;/g, '"');
     if (data.url.replace(/&/g, '&amp;') !== cleanData) {
 
-        debug('data and cleandata', data, cleanData, data.url === cleanData);
         req.flash('errors', {
             msg: 'The data for this post is malformed'
         });
@@ -98,6 +104,7 @@ exports.preSubmit = function(req, res) {
     var image = data.image || '';
     var description = data.description || '';
     return res.render('stories/index', {
+        title: "Confirm your Camper News story submission",
         page: 'storySubmission',
         storyURL: data.url,
         storyTitle: title,
@@ -132,7 +139,18 @@ exports.returnIndividualStory = function(req, res, next) {
             return res.redirect('../stories/' + dashedNameFull);
         }
 
-        res.render('stories/index', {
+		var userVoted = false;
+        try {
+            var votedObj = story.upVotes.filter(function(a){
+                return a['upVotedByUsername'] === req.user['profile']['username'];
+            })
+            if (votedObj.length > 0){
+                userVoted = true;
+            }
+        } catch(err){
+            userVoted = false;
+        }
+	res.render('stories/index', {
             title: story.headline,
             link: story.link,
             author: story.author,
@@ -141,11 +159,11 @@ exports.returnIndividualStory = function(req, res, next) {
             upVotes: story.upVotes,
             comments: story.comments,
             id: story._id,
-            user: req.user,
             timeAgo: moment(story.timePosted).fromNow(),
             image: story.image,
             page: 'show',
-            storyMetaDescription: story.metaDescription
+            storyMetaDescription: story.metaDescription,
+			hasUserVoted: userVoted
         });
     });
 };
@@ -220,8 +238,14 @@ exports.comments = function(req, res, next) {
 };
 
 exports.newStory = function(req, res) {
+    if (!req.user) {
+      return res.status(500);
+    }
     var url = req.body.data.url;
-    var cleanURL = sanitizeHtml(url);
+    var cleanURL = sanitizeHtml(url, {
+      allowedTags: [],
+      allowedAttributes: []
+    }).replace(/&quot;/g, '"');
     if (cleanURL !== url) {
         req.flash('errors', {
             msg: "The URL you submitted doesn't appear valid"
@@ -274,6 +298,9 @@ exports.newStory = function(req, res) {
 
 exports.storySubmission = function(req, res) {
     var data = req.body.data;
+    if (req.user._id.toString() !== data.author.userId.toString()) {
+        return res.status(500);
+    }
     var storyLink = data.headline
         .replace(/\'/g, '')
         .replace(/\"/g, '')
@@ -286,10 +313,16 @@ exports.storySubmission = function(req, res) {
         link = 'http://' + link;
     }
     var story = new Story({
-        headline: sanitizeHtml(data.headline),
+        headline: sanitizeHtml(data.headline, {
+                    allowedTags: [],
+                    allowedAttributes: []
+                  }).replace(/&quot;/g, '"'),
         timePosted: Date.now(),
         link: link,
-        description: sanitizeHtml(data.description),
+        description: sanitizeHtml(data.description, {
+                        allowedTags: [],
+                        allowedAttributes: []
+                    }).replace(/&quot;/g, '"'),
         rank: 1,
         upVotes: data.upVotes,
         author: data.author,
@@ -311,11 +344,14 @@ exports.storySubmission = function(req, res) {
 
 exports.commentSubmit = function(req, res) {
     var data = req.body.data;
+    if (req.user._id.toString() !== data.author.userId.toString()) {
+        return res.status(500);
+    }
     var sanitizedBody = sanitizeHtml(data.body,
         {
             allowedTags: [],
             allowedAttributes: []
-        });
+        }).replace(/&quot;/g, '"');
     if (data.body !== sanitizedBody) {
         req.flash('errors', {
             msg: 'HTML is not allowed'
@@ -337,11 +373,16 @@ exports.commentSubmit = function(req, res) {
 
 exports.commentOnCommentSubmit = function(req, res) {
     var data = req.body.data;
+
+    if (req.user._id.toString() !== data.author.userId.toString()) {
+        return res.status(500);
+    }
+
     var sanitizedBody = sanitizeHtml(data.body,
         {
             allowedTags: [],
             allowedAttributes: []
-        });
+        }).replace(/&quot;/g, '"');
     if (data.body !== sanitizedBody) {
         req.flash('errors', {
             msg: 'HTML is not allowed'
